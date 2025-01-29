@@ -1,5 +1,5 @@
 import os
-
+import datetime
 import requests
 from requests.auth import HTTPBasicAuth
 
@@ -33,10 +33,12 @@ def get_project_id():
 
 def get_or_create_release(release_name):
     result = get("version", {"query": release_name})
-    if result["total"] == 0:
+    now = datetime.datetime.now()
+    formatted_date = now.strftime('%Y-%m-%d')
+    if result["total"] == 0:  
         return post(
             "version",
-            {"name": release_name, "projectId": get_project_id()},
+            {"name": release_name, "projectId": get_project_id(), "releaseDate": formatted_date},
         ).json()
     elif result["total"] > 1:
         raise Exception("Found multiple releases with the same name.")
