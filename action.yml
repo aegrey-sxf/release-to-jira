@@ -19,15 +19,18 @@ inputs:
     required: true
   release_tag:
     description: Github Tag
+  github_token:
+    description: Github Token
+    required: true
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Get or create Github release
       shell: bash
       working-directory: ${{ github.action_path }}
       env:
-        GH_TOKEN: ${{ github.token }}
+        GH_TOKEN: ${{ inputs.github_token }}
       run: |
         gh api \
           --method GET repos/${{ github.repository }}/releases/tags/${{ inputs.release_tag }} \
