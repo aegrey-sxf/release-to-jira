@@ -38,7 +38,7 @@ def get_or_create_release(release_name):
     if result["total"] == 0:  
         return post(
             "version",
-            {"name": release_name, "projectId": get_project_id(), "releaseDate": formatted_date, "released": true},
+            {"name": release_name, "projectId": get_project_id(), "releaseDate": formatted_date, "released": "true"},
         ).json()
     elif result["total"] > 1:
         raise Exception("Found multiple releases with the same name.")
